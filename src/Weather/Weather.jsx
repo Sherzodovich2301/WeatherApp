@@ -37,7 +37,7 @@ export default function Weather() {
   };
 
   return (
-    <div className="bg-Sunset turn:overflow-visible bg-center overflow-hidden bg-no-repeat bg w-full bg-cover h-screen">
+    <div className="bg-Sunset bg-center overflow-hidden bg-no-repeat bg w-full bg-cover h-[100vh]">
       <div className="hello flex flex-col xl:flex-row justify-between items-center gap-10">
         <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[400px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-640px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
           <p className="text-white w-[70%] md:flex turn:hidden text-start xl:text-[25px] sm:text-[30px] mt-[40px]">The.weather</p>
@@ -67,7 +67,7 @@ export default function Weather() {
 
 
 
-        <div className="w-[550px] xl:h-[100vh] sm:h-[650px] lg:h-[700px] md:h-[650px] turn:h-[800px] xl:w-[550px] lg:w-[800px] sm:w-[600px] turn:w-[350px] flex flex-col items-center border-[0.2px] border-gray-600 backdrop-blur-md ">
+        <div className="w-[550px] xl:h-[100vh] sm:h-[650px] lg:h-[700px] md:h-[650px] turn:h-[400px] xl:w-[550px] lg:w-[800px] sm:w-[600px] turn:w-[350px] flex flex-col items-center border-[0.2px] border-gray-600 backdrop-blur-md ">
           <div className="w-[450px] h-[200px] lg:mt-[0px] sm:flex turn:flex-col  sm:items-start turn:items-center sm:mt-[-50px] flex xl:mb-0 sm:mb-[50px]">
             <article className="w-full h-auto flex sm:justify-start turn:justify-center">
               <input
@@ -108,7 +108,7 @@ export default function Weather() {
             <p className="w-full h-[0.3px] sm:flex turn:hidden xl:mb-[40px] turn:mb-[90px] bg-gray-400"></p>
           </article>
 
-          <div className="w-[450px] h-[300px]">
+          <div className="w-[450px] sm:block turn:hidden  h-[300px]">
             <article className="w-[450px] xl:text-start turn:text-center">
               <h1 className="text-[18px] text-white font-[400] mb-[40px]">Weather Details</h1>
             </article>
