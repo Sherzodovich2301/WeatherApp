@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        Sunset: "url('./src/Img/photo-1534274988757-a28bf1a57c17.avif')",
+        Sunset: "url(https://sgjksnpjllcugasriejo.supabase.co/storage/v1/object/public/stand//photo-1534274988757-a28bf1a57c17.avif)",
         
       },
       screens: {

@@ -5,7 +5,7 @@ export default function Weather() {
   const [data, setData] = useState(null);
   const [error, SetError] = useState("")
 
-
+  
   const fetchWeather = async (cityName) => {
     try {
       const result = await fetch(
