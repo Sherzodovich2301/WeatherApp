@@ -39,7 +39,7 @@ export default function Weather() {
   return (
     <div className="bg-Sunset bg-center overflow-hidden bg-no-repeat bg w-full bg-cover h-[100vh]">
       <div className="hello flex flex-col xl:flex-row justify-between items-center gap-10">
-        <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[400px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-640px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
+        <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[400px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-600px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
           <p className="text-white w-[70%] md:flex turn:hidden text-start xl:text-[25px] sm:text-[30px] mt-[40px]">The.weather</p>
 
 
@@ -108,7 +108,7 @@ export default function Weather() {
             <p className="w-full h-[0.3px] sm:flex turn:hidden xl:mb-[40px] turn:mb-[90px] bg-gray-400"></p>
           </article>
 
-          <div className="w-[450px] sm:block turn:hidden  h-[300px]">
+          <div className="w-[450px] sm:block turn:hidden h-[300px]">
             <article className="w-[450px] xl:text-start turn:text-center">
               <h1 className="text-[18px] text-white font-[400] mb-[40px]">Weather Details</h1>
             </article>
