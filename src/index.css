@@ -2,9 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (max-width: 430px) {
-  .custom-class {
-    flex-direction: column;
-    align-items: center;
-  }
-}
