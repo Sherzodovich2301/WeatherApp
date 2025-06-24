@@ -7,6 +7,16 @@ export default function Weather() {
   const [error, SetError] = useState("");
   const [weatherType, setWeatherType] = useState("clear");
 
+  const getCloseForecast = (list) => {
+    const now = new Date();
+    return list.reduce((closest, current) => {
+      const currentDiff = Math.abs(new Date(current.dt_txt) - now);
+      const closestDiff = Math.abs(new Date(closest.dt_txt) - now);
+      return currentDiff < closestDiff ? current : closest;
+    });
+  };
+
+
   const fetchWeather = async (cityName) => {
     try {
       const result = await fetch(
@@ -14,8 +24,10 @@ export default function Weather() {
       );
       const json = await result.json();
       if (json.cod === "200") {
+        const closest = getCloseForecast(json.list)
+        setWeatherType(closest.weather[0].main);
+        json.closest = closest;
         setData(json);
-        setWeatherType(json.list[0].weather[0].main); // "Clear", "Clouds", "Rain", etc.
         SetError("");
       } else {
         setData(null);
@@ -26,6 +38,17 @@ export default function Weather() {
       console.log("Xatolik:", error);
     }
   };
+
+
+
+
+
+
+
+
+
+
+
 
   useEffect(() => {
     fetchWeather("Tashkent");
@@ -39,16 +62,16 @@ export default function Weather() {
   };
 
   const getWeatherTextColor = (type) => {
-  switch (type) {
-    case "Snow":
-    case "Clear":
-    case "Clouds":
-    case "Rain":
-      return "text-white";
-    default:
-      return "text-gray-400";
-  }
-};
+    switch (type) {
+      case "Snow":
+      case "Clear":
+      case "Clouds":
+      case "Rain":
+        return "text-white";
+      default:
+        return "text-gray-400";
+    }
+  };
 
 
 
@@ -72,15 +95,14 @@ export default function Weather() {
       <div className="hello flex flex-col xl:flex-row justify-between items-center gap-10">
         <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[400px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-600px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
           <p className="text-white w-[70%] md:flex turn:hidden text-start xl:text-[25px] sm:text-[30px] mt-[40px]">The.weather</p>
-
           <div className="w-full mt-[40px] flex gap-[20px] md:w-full sm:w-[300px] turn:w-[200px] items-center justify-center xl:justify-end">
-            {data?.list?.slice(0, 1).map((item, id) => (
-              <article key={id}>
+            {data?.closest && (
+              <article>
                 <p className="font-[600] text-[60px] xl:text-[60px] md:text-center sm:text-[80px] text-white">
-                  {Math.round(item.main.temp)}<sup>c</sup>
+                  {Math.round(data.closest.main.temp)}<sup>c</sup>
                 </p>
               </article>
-            ))}
+            )}
             {data?.city && (
               <article>
                 <p className="text-[45px] text-white font-[600]">{data.city.name}</p>
@@ -88,7 +110,7 @@ export default function Weather() {
               </article>
             )}
             {error && (
-              <p className="text-white text-center te mt-2 text-[35px] font-semibold">{error}</p>
+              <p className="text-white text-center mt-2 text-[35px] font-semibold">{error}</p>
             )}
           </div>
         </div>
