@@ -10,9 +10,9 @@ export default function Weather() {
   const getCloseForecast = (list) => {
     const now = new Date();
     return list.reduce((closest, current) => {
-      const currentDiff = Math.abs(new Date(current.dt_txt) - now);
-      const closestDiff = Math.abs(new Date(closest.dt_txt) - now);
-      return currentDiff < closestDiff ? current : closest;
+      const currentLog = Math.abs(new Date(current.dt_txt) - now);
+      const closestLog = Math.abs(new Date(closest.dt_txt) - now);
+      return currentLog < closestLog ? current : closest;
     });
   };
 
@@ -29,6 +29,8 @@ export default function Weather() {
         json.closest = closest;
         setData(json);
         SetError("");
+        //windowni yangilamaymiz
+        window.history.replaceState(null, "", `?city=${cityName}`)
       } else {
         setData(null);
         SetError("Bu davlat mavjud emas");
@@ -44,20 +46,37 @@ export default function Weather() {
 
 
 
+  const getDay = (list) => {
+    const today = new Date().toISOString().split("T")[0]
+
+    return list.filter((item) => {
+      const TodayTime = item.dt_txt.split(" ")[0]
+      const hour = new Date(item.dt_txt).getHours()
+      return TodayTime === today && hour >= 10 && hour <= 23;
+    })
+  }
 
 
 
 
 
-
+  // useEffect yangilandi 
+  //********************//
   useEffect(() => {
-    fetchWeather("Tashkent");
+    const params = new URLSearchParams(window.location.search)
+    const cityFromUrl = params.get("city")
+    if(cityFromUrl){
+      setInputValue(cityFromUrl)
+      fetchWeather(cityFromUrl)
+    }else{
+      fetchWeather("Tashkent")
+    }
   }, []);
+  //*******************//
 
   const handleSearch = () => {
     if (inputValue.trim() !== "") {
       fetchWeather(inputValue);
-      setInputValue("");
     }
   };
 
@@ -93,7 +112,7 @@ export default function Weather() {
   return (
     <div className={`bg-center bg-no-repeat bg-cover overflow-hidden w-full h-[100vh] ${getWeatherClass(weatherType)}`}>
       <div className="hello flex flex-col xl:flex-row justify-between items-center gap-10">
-        <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[400px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-600px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
+        <div className="xl:mb-0 turn:mb-[40px] xl:ml-[40px] md:w-[350px] turn:w-[200px] w-[600px] h-[765px] flex flex-row xl:flex-col xl:mt-[0px] turn:mt-[-600px] items-end xl:gap-0 turn:gap-[230px] turn:ml-[0px] sm:ml-[-350px]">
           <p className="text-white w-[70%] md:flex turn:hidden text-start xl:text-[25px] sm:text-[30px] mt-[40px]">The.weather</p>
           <div className="w-full mt-[40px] flex gap-[20px] md:w-full sm:w-[300px] turn:w-[200px] items-center justify-center xl:justify-end">
             {data?.closest && (
@@ -113,7 +132,29 @@ export default function Weather() {
               <p className="text-white text-center mt-2 text-[35px] font-semibold">{error}</p>
             )}
           </div>
+
+
+
+
         </div>
+          <div className="xl:w-[360px] h-[100px] backdrop-blur-lg flex xl:ml-[-800px]  ml-[-800px] turn:ml-[0] rounded-[10px] xl:mt-[500px] mt-[500px] turn:mt-0">
+            {data &&
+              getDay(data.list).map((item, id) => {
+                return (
+                <article key={id} className="pl-[20px] flex flex-col items-center pr-[25px] pt-[15px] ">
+                  <p className="mb-[10px] font-[600] text-[20px] text-white">
+                    {item.dt_txt.split(" ")[1].slice(0, 5)}
+                  </p>
+                  <p className="mb-[10px] font-[600] text-[20px] text-white">
+                    {Math.round(item.main.temp)}<sup>c</sup>
+                  </p>
+                </article>)
+              })
+            }
+          </div>
+
+
+
 
         <div className="w-[550px] xl:h-[100vh] sm:h-[650px] lg:h-[700px] md:h-[650px] turn:h-[400px] xl:w-[550px] lg:w-[800px] sm:w-[600px] turn:w-[350px] flex flex-col items-center border-[0.2px] border-gray-600 backdrop-blur-md ">
           <div className="w-[450px] h-[200px] lg:mt-[0px] sm:flex turn:flex-col sm:items-start turn:items-center sm:mt-[-50px] flex xl:mb-0 sm:mb-[50px]">
@@ -143,7 +184,7 @@ export default function Weather() {
             {["Birmingham", "Manchester", "New York", "California"].map((city) => (
               <article
                 key={city}
-                onClick={() => fetchWeather(city)}
+                onClick={() => {setInputValue(city); fetchWeather(city)}}
                 className="w-full mb-[30px] h-auto cursor-pointer hover:text-white transition-all"
               >
                 <p className={`${getWeatherTextColor(weatherType)}`}>{city}</p>
@@ -189,3 +230,6 @@ export default function Weather() {
     </div>
   );
 }
+
+
+
