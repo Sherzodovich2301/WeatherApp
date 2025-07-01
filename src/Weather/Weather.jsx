@@ -29,6 +29,7 @@ export default function Weather() {
         json.closest = closest;
         setData(json);
         SetError("");
+        
         //windowni yangilamaymiz
         window.history.replaceState(null, "", `?city=${cityName}`)
       } else {
@@ -65,10 +66,10 @@ export default function Weather() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const cityFromUrl = params.get("city")
-    if(cityFromUrl){
+    if (cityFromUrl) {
       setInputValue(cityFromUrl)
       fetchWeather(cityFromUrl)
-    }else{
+    } else {
       fetchWeather("Tashkent")
     }
   }, []);
@@ -91,6 +92,8 @@ export default function Weather() {
         return "text-gray-400";
     }
   };
+
+
 
 
 
@@ -137,10 +140,10 @@ export default function Weather() {
 
 
         </div>
-          <div className="xl:w-[360px] h-[100px] backdrop-blur-lg flex xl:ml-[-800px]  ml-[-800px] turn:ml-[0] rounded-[10px] xl:mt-[500px] mt-[500px] turn:mt-0">
-            {data &&
-              getDay(data.list).map((item, id) => {
-                return (
+        <div className="xl:w-[360px] h-[100px] backdrop-blur-lg flex xl:ml-[-800px]  ml-[-800px] turn:ml-[0] rounded-[10px] xl:mt-[500px] mt-[500px] turn:mt-0">
+          {data &&
+            getDay(data.list).map((item, id) => {
+              return (
                 <article key={id} className="pl-[20px] flex flex-col items-center pr-[25px] pt-[15px] ">
                   <p className="mb-[10px] font-[600] text-[20px] text-white">
                     {item.dt_txt.split(" ")[1].slice(0, 5)}
@@ -149,28 +152,28 @@ export default function Weather() {
                     {Math.round(item.main.temp)}<sup>c</sup>
                   </p>
                 </article>)
-              })
-            }
-          </div>
+            })
+          }
+        </div>
 
 
 
 
-        <div className="w-[550px] xl:h-[100vh] sm:h-[650px] lg:h-[700px] md:h-[650px] turn:h-[400px] xl:w-[550px] lg:w-[800px] sm:w-[600px] turn:w-[350px] flex flex-col items-center border-[0.2px] border-gray-600 backdrop-blur-md ">
+        <div className="w-[550px] xl:h-[100vh] sm:h-[650px] lg:h-[700px] md:h-[650px] turn:h-[400px] xl:w-[550px] lg:w-[800px] sm:w-[600px] turn:w-[350px] flex flex-col items-center backdrop-blur-md ">
           <div className="w-[450px] h-[200px] lg:mt-[0px] sm:flex turn:flex-col sm:items-start turn:items-center sm:mt-[-50px] flex xl:mb-0 sm:mb-[50px]">
             <article className="w-full h-auto flex sm:justify-start turn:justify-center">
-              <input
-                className="w-[70%] h-[40px] text-white bg-black border-[0.3px] border-gray-400 rounded-[5px] pl-[20px] outline-none mt-[100px]"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
-                }}
-                type="text"
-                placeholder="Another Location"
-              />
+                <input
+                  className="w-[70%] h-[40px] text-white bg-black border-[0.3px] border-gray-400 rounded-[5px] pl-[20px] outline-none mt-[100px]"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleSearch();
+                    }
+                  }}
+                  type="text"
+                  placeholder="Another Location"
+                />
             </article>
             <button
               onClick={handleSearch}
@@ -184,7 +187,7 @@ export default function Weather() {
             {["Birmingham", "Manchester", "New York", "California"].map((city) => (
               <article
                 key={city}
-                onClick={() => {setInputValue(city); fetchWeather(city)}}
+                onClick={() => { setInputValue(city); fetchWeather(city) }}
                 className="w-full mb-[30px] h-auto cursor-pointer hover:text-white transition-all"
               >
                 <p className={`${getWeatherTextColor(weatherType)}`}>{city}</p>
@@ -199,30 +202,34 @@ export default function Weather() {
             <article className="w-[450px] xl:text-start turn:text-center">
               <h1 className="text-[18px] text-white font-[400] mb-[40px]">Weather Details</h1>
             </article>
-            {data?.list?.slice(0, 1).map((item, id) => (
-              <article key={id} className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
-                <p className={`${getWeatherTextColor(weatherType)}`}>Cloudy</p>
-                <p className="text-white">{item.clouds.all}%</p>
-              </article>
-            ))}
-            {data?.list?.slice(0, 1).map((item, id) => (
-              <article key={id} className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
-                <p className={`${getWeatherTextColor(weatherType)}`}>Humidity</p>
-                <p className="text-white">{item.main.humidity}%</p>
-              </article>
-            ))}
-            {data?.list?.slice(0, 1).map((item, id) => (
-              <article key={id} className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
-                <p className={`${getWeatherTextColor(weatherType)}`}>Wind</p>
-                <p className="text-white">{item.wind.speed} km/h</p>
-              </article>
-            ))}
-            {data?.list?.slice(0, 1).map((item, id) => (
-              <article key={id} className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
-                <p className={`${getWeatherTextColor(weatherType)}`}>Description</p>
-                <p className="text-white">{item?.weather?.[0]?.description ?? "--"}</p>
-              </article>
-            ))}
+            {data?.list?.[0] && (  
+              <section>
+                {/* Cloudy */}
+                <article className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
+                  <p className={`${getWeatherTextColor(weatherType)}`}>Cloudy</p>
+                  <p className="text-white">{data.closest.clouds.all}%</p>
+                </article>
+
+                {/* Humidity */}
+                <article className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
+                  <p className={`${getWeatherTextColor(weatherType)}`}>Humidity</p>
+                  <p className="text-white">{data.closest.main.humidity}%</p>
+                </article>
+
+                {/* Wind */}
+                <article className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
+                  <p className={`${getWeatherTextColor(weatherType)}`}>Wind</p>
+                  <p className="text-white">{data.closest.wind.speed} km/h</p>
+                </article>
+
+                {/* Description */}
+                <article className="w-full flex lg:justify-between turn:justify-around justify-between mb-[30px] h-auto">
+                  <p className={`${getWeatherTextColor(weatherType)}`}>Description</p>
+                  <p className="text-white">{data?.closest.weather?.[0]?.description ?? "--"}</p>
+                </article>
+              </section>
+            )}
+
             <p className="sm:flex turn:hidden w-full h-[0.3px] bg-gray-400"></p>
           </div>
         </div>
